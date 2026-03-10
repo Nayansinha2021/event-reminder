@@ -1,0 +1,13 @@
+﻿
+> notification-service@1.0.0 start
+> node index.js
+
+BullMQ Worker initialized for reminderQueue
+Notification Service & WebSockets running on port 5003
+MongoDB connected for Notification Service
+Processing reminder for job 2, event: birthday
+[MOCK EMAIL] To: nayansinah2021@gmail.com | Subject: Event Reminder: birthday | Body: Reminder: Your event "birthday" is starting soon!
+[MOCK SMS] To: +917903063561 | Body: Reminder: Your event "birthday" is starting soon!
+[PUSH NOTIFICATION] User: 69afc8ab6804f7bfe8abc774 | Title: Event Reminder | Body: Reminder: Your event "birthday" is starting soon! | Using Key: undefined
+[SOCKET] Emitted realtime reminder to user 69afc8ab6804f7bfe8abc774
+Job 2 has completed!

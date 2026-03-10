@@ -1,0 +1,58 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          
+      - name: Install User Service Depedencies
+        working-directory: ./user-service
+        run: npm ci
+        
+      - name: Install Event Service Dependencies
+        working-directory: ./event-service
+        run: npm ci
+
+      - name: Install Notification Service Dependencies
+        working-directory: ./notification-service
+        run: npm ci
+        
+      - name: Install Gateway Dependencies
+        working-directory: ./api-gateway
+        run: npm ci
+        
+      - name: Install Frontend Dependencies
+        working-directory: ./frontend
+        run: npm ci
+
+      # Normally we would run `npm test` here for all services.
+      # - run: npm test
+
+  docker_build:
+    needs: build_and_test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v3
+      
+      # Step to build Docker images and theoretically push them to a registry like Docker Hub or AWS ECR
+      - name: Build Docker Compose
+        run: docker-compose build
+
+      # Theoretical deployment step to Vercel/EC2/Render
+      # - name: Deploy to Cloud
+      #   run: ./scripts/deploy.sh

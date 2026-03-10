@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 transition-colors duration-200 antialiased;
+  }
+
+  .dark body {
+    @apply bg-gray-900 text-gray-100;
+  }
+}
+
+.fc-button-primary {
+  @apply !bg-brand-600 !border-brand-600 !shadow-md !rounded-lg !transition-all !duration-200 !font-medium !text-sm !px-4 !py-2;
+}
+
+.fc-toolbar-title {
+  @apply !text-xl !font-bold !text-gray-900 !tracking-tight;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  @apply !border-gray-200;
+}
+
+.fc-col-header-cell-cushion {
+  @apply !text-gray-600 !font-semibold !uppercase !text-xs !tracking-wider !py-3;
+}
+
+.fc-daygrid-day-number {
+  @apply !text-gray-700 !text-sm !font-medium !p-2 !rounded-full !transition-colors !w-8 !h-8 !flex !items-center !justify-center !m-1;
+}
+
+.fc-day-today {
+  @apply !bg-brand-50/50;
+}
+
+.fc-day-today .fc-daygrid-day-number {
+  @apply !bg-brand-600 !text-white;
+}
+
+.fc-event {
+  @apply !border-none !shadow-sm !rounded-md !px-2 !py-1 !text-xs !font-medium !transition-transform !cursor-pointer;
+}
+
+.glass-panel {
+  @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-xl rounded-2xl;
+}
+
+/* Dark Mode Overrides for FullCalendar */
+.dark .fc-toolbar-title {
+  @apply !text-gray-100;
+}
+
+.dark .fc-theme-standard td,
+.dark .fc-theme-standard th {
+  @apply !border-gray-700;
+}
+
+.dark .fc-col-header-cell-cushion {
+  @apply !text-gray-400;
+}
+
+.dark .fc-daygrid-day-number {
+  @apply !text-gray-300;
+}
+
+.dark .fc-day-today {
+  @apply !bg-brand-900/20;
+}

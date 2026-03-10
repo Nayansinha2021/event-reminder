@@ -1,0 +1,107 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:6-jammy
+    container_name: erp-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - erp-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: erp-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - erp-network
+
+  user-service:
+    build:
+      context: ./user-service
+    container_name: erp-user-service
+    ports:
+      - "5001:5001"
+    environment:
+      - PORT=5001
+      - MONGODB_URI=mongodb://mongodb:27017/event_reminder
+      - JWT_SECRET=super_secret_jwt_key
+    depends_on:
+      - mongodb
+    networks:
+      - erp-network
+
+  event-service:
+    build:
+      context: ./event-service
+    container_name: erp-event-service
+    ports:
+      - "5002:5002"
+    environment:
+      - PORT=5002
+      - MONGODB_URI=mongodb://mongodb:27017/event_reminder
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=super_secret_jwt_key
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - erp-network
+
+  notification-service:
+    build:
+      context: ./notification-service
+    container_name: erp-notification-service
+    ports:
+      - "5003:5003"
+    environment:
+      - PORT=5003
+      - MONGODB_URI=mongodb://mongodb:27017/event_reminder
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=super_secret_jwt_key
+      # Add Twilio/SMTP real keys here
+      - MOCK_NOTIFICATIONS=false
+      - TWILIO_ACCOUNT_SID=mock_sid
+      - TWILIO_AUTH_TOKEN=mock_token
+      - TWILIO_PHONE_NUMBER=mock_number
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - EMAIL_FROM=${EMAIL_FROM}
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - erp-network
+
+  api-gateway:
+    build:
+      context: ./api-gateway
+    container_name: erp-api-gateway
+    ports:
+      - "5004:5000"
+    environment:
+      - PORT=5000
+      - USER_SERVICE_URL=http://user-service:5001
+      - EVENT_SERVICE_URL=http://event-service:5002
+      - NOTIF_SERVICE_URL=http://notification-service:5003
+    depends_on:
+      - user-service
+      - event-service
+      - notification-service
+    networks:
+      - erp-network
+
+volumes:
+  mongodb_data:
+
+
+networks:
+  erp-network:
+    driver: bridge
