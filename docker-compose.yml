@@ -98,6 +98,17 @@ services:
     networks:
       - erp-network
 
+  frontend:
+    build:
+      context: ./frontend
+    container_name: erp-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - erp-network
+
 volumes:
   mongodb_data:
 
