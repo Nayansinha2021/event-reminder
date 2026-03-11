@@ -9,7 +9,8 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const API_URL = 'http://localhost:5004/api/users'; // Gateway URL
+    const baseApiUrl = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5004`;
+    const API_URL = `${baseApiUrl}/api/users`; // Gateway URL
 
     useEffect(() => {
         const userInfo = localStorage.getItem('userInfo');

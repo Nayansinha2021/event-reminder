@@ -11,6 +11,7 @@ import { Mic, Plus, BellRing, X, Moon, Sun, BellOff } from 'lucide-react';
 
 const Dashboard = () => {
     const { user, logout } = useAuth();
+    const API_URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5004`;
     const [isDarkMode, setIsDarkMode] = useState(() => {
         return localStorage.getItem('theme') === 'dark';
     });
@@ -93,7 +94,7 @@ const Dashboard = () => {
     const fetchEvents = async () => {
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            const { data } = await axios.get('http://localhost:5004/api/events', config);
+            const { data } = await axios.get(`${API_URL}/api/events`, config);
 
             // Map to FullCalendar format
             const now = new Date();
@@ -171,7 +172,7 @@ const Dashboard = () => {
 
             // Create Event API call
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.post('http://localhost:5004/api/events/create', {
+            await axios.post(`${API_URL}/api/events/create`, {
                 title,
                 date: eventDate,
                 reminderSettings: { email: true, push: true, minutesBefore: 30 }
@@ -189,7 +190,7 @@ const Dashboard = () => {
         e.preventDefault();
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.post('http://localhost:5004/api/events/create', {
+            await axios.post(`${API_URL}/api/events/create`, {
                 title: newEvent.title,
                 date: new Date(newEvent.date).toISOString(),
                 reminderSettings: { email: newEvent.email, push: newEvent.push, minutesBefore: newEvent.minutesBefore }
@@ -214,7 +215,7 @@ const Dashboard = () => {
 
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
-            await axios.delete(`http://localhost:5004/api/events/delete/${selectedEventId}`, config);
+            await axios.delete(`${API_URL}/api/events/delete/${selectedEventId}`, config);
 
             setIsDeleteModalOpen(false);
             setSelectedEventId('');
@@ -231,7 +232,7 @@ const Dashboard = () => {
         try {
             const config = { headers: { Authorization: `Bearer ${user.token}` } };
             // Optional: You could ask user if they want to update reminder settings, but we'll default to previous
-            await axios.put(`http://localhost:5004/api/events/update/${event.id}`, {
+            await axios.put(`${API_URL}/api/events/update/${event.id}`, {
                 date: event.start.toISOString(),
             }, config);
 

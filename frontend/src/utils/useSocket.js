@@ -14,7 +14,8 @@ const useSocket = (onNotification) => {
     useEffect(() => {
         if (!user || !user.token) return;
 
-        const socket = io('http://localhost:5003', { // Direct connection to Notif Service
+        const socketUrl = import.meta.env.VITE_NOTIF_URL || `http://${window.location.hostname}:5003`;
+        const socket = io(socketUrl, { // Direct connection to Notif Service
             auth: {
                 token: user.token
             }
