@@ -282,7 +282,7 @@ const Dashboard = () => {
             <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
 
                 {/* Left Column: Calendar */}
-                <div className="flex-1 bg-white dark:bg-gray-800 p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col h-[700px] overflow-hidden transition-colors duration-200">
+                <div className="flex-1 bg-white dark:bg-gray-800 p-2 sm:p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col min-h-[500px] lg:h-[700px] overflow-hidden transition-colors duration-200">
                     <div className="mb-6 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
                         <h2 className="text-xl font-semibold text-gray-800 dark:text-white shrink-0">Your Calendar</h2>
 
@@ -310,36 +310,40 @@ const Dashboard = () => {
                                 className="flex items-center justify-center flex-1 sm:flex-none gap-2 px-4 py-2 bg-brand-600 dark:bg-brand-500 text-white rounded-lg hover:bg-brand-700 dark:hover:bg-brand-600 transition-colors shadow-sm text-sm font-medium"
                             >
                                 <Plus size={16} />
-                                Add Event
+                                <span className="hidden sm:inline">Add Event</span>
+                                <span className="sm:hidden">Add</span>
                             </button>
                             <button
                                 onClick={() => setIsDeleteModalOpen(true)}
                                 className="flex items-center justify-center flex-1 sm:flex-none gap-2 px-4 py-2 bg-red-600 dark:bg-red-500 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-600 transition-colors shadow-sm text-sm font-medium"
                             >
                                 <X size={16} />
-                                Delete Event
+                                <span className="hidden sm:inline">Delete Event</span>
+                                <span className="sm:hidden">Delete</span>
                             </button>
                         </div>
                     </div>
 
-                    <div className="flex-1 min-h-0 w-full overflow-hidden calendar-container">
-                        <FullCalendar
-                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-                            initialView="dayGridMonth"
-                            headerToolbar={{
-                                left: 'prevYear,prev,next,nextYear today',
-                                center: 'title',
-                                right: 'dayGridMonth,timeGridWeek'
-                            }}
-                            events={events}
-                            height="100%"
-                            editable={true} // Enable drag and drop
-                            droppable={true}
-                            eventDrop={handleEventDrop}
-                            eventClick={(info) => {
-                                alert(`Event: ${info.event.title}\nDate: ${info.event.start.toLocaleString()}`);
-                            }}
-                        />
+                    <div className="flex-1 min-h-[400px] w-full overflow-x-auto overflow-y-hidden calendar-container">
+                        <div className="min-w-[500px] h-full">
+                            <FullCalendar
+                                plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+                                initialView="dayGridMonth"
+                                headerToolbar={{
+                                    left: window.innerWidth < 640 ? 'prev,next' : 'prevYear,prev,next,nextYear today',
+                                    center: 'title',
+                                    right: window.innerWidth < 640 ? 'dayGridMonth' : 'dayGridMonth,timeGridWeek'
+                                }}
+                                events={events}
+                                height="100%"
+                                editable={true} // Enable drag and drop
+                                droppable={true}
+                                eventDrop={handleEventDrop}
+                                eventClick={(info) => {
+                                    alert(`Event: ${info.event.title}\nDate: ${info.event.start.toLocaleString()}`);
+                                }}
+                            />
+                        </div>
                     </div>
                 </div>
 
