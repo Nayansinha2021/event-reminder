@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    const baseApiUrl = import.meta.env.VITE_API_URL || "https://eventreminder.duckdns.org";
+    const baseApiUrl = '';
     const API_URL = `${baseApiUrl}/api/users`; // Gateway URL
 
     useEffect(() => {

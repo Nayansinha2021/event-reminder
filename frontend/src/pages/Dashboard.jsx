@@ -11,7 +11,7 @@ import { Mic, Plus, BellRing, X, Moon, Sun, BellOff } from 'lucide-react';
 
 const Dashboard = () => {
     const { user, logout } = useAuth();
-    const API_URL = import.meta.env.VITE_API_URL || `http://${window.location.hostname}:5004`;
+    const API_URL = '';
     const [isDarkMode, setIsDarkMode] = useState(() => {
         return localStorage.getItem('theme') === 'dark';
     });

@@ -21,14 +21,15 @@ const createManualProxy = (targetUrl) => {
             const url = `${targetUrl}${req.originalUrl}`;
             console.log(`[Gateway] Forwarding ${req.method} to ${url}`);
 
+            const proxyHeaders = { ...req.headers };
+            delete proxyHeaders['content-length'];
+            proxyHeaders.host = new URL(targetUrl).host;
+
             const response = await axios({
                 method: req.method,
                 url: url,
                 data: req.method !== 'GET' ? req.body : undefined,
-                headers: {
-                    ...req.headers,
-                    host: new URL(targetUrl).host,
-                },
+                headers: proxyHeaders,
                 validateStatus: () => true // Forward all HTTP codes
             });
 
