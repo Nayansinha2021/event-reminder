@@ -324,8 +324,8 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <div className="flex-1 min-h-[400px] w-full overflow-x-auto overflow-y-hidden calendar-container">
-                        <div className="min-w-[500px] h-full">
+                    <div className="flex-1 min-h-[400px] w-full overflow-x-auto overflow-y-hidden calendar-container flex flex-col">
+                        <div className="min-w-[300px] sm:min-w-[500px] flex-1 w-full h-full min-h-[400px]">
                             <FullCalendar
                                 plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                                 initialView="dayGridMonth"
@@ -335,7 +335,8 @@ const Dashboard = () => {
                                     right: window.innerWidth < 640 ? 'dayGridMonth' : 'dayGridMonth,timeGridWeek'
                                 }}
                                 events={events}
-                                height="100%"
+                                height="auto"
+                                contentHeight="auto"
                                 editable={true} // Enable drag and drop
                                 droppable={true}
                                 eventDrop={handleEventDrop}

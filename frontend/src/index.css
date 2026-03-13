@@ -30,7 +30,7 @@
 }
 
 .fc-daygrid-day-number {
-  @apply !text-gray-700 !text-sm !font-medium !p-2 !rounded-full !transition-colors !w-8 !h-8 !flex !items-center !justify-center !m-1;
+  @apply !text-gray-700 !text-base sm:!text-sm !font-medium !p-1 sm:!p-2 !rounded-full !transition-colors !w-7 !h-7 sm:!w-8 sm:!h-8 !flex !items-center !justify-center !m-0.5 sm:!m-1;
 }
 
 .fc-day-today {

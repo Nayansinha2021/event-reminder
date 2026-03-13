@@ -14,7 +14,7 @@ const useSocket = (onNotification) => {
     useEffect(() => {
         if (!user || !user.token) return;
 
-        const socketUrl = import.meta.env.VITE_NOTIF_URL || `http://${window.location.hostname}:5003`;
+        const socketUrl = import.meta.env.VITE_NOTIF_URL || "https://eventreminder.duckdns.org";
         const socket = io(socketUrl, { // Direct connection to Notif Service
             auth: {
                 token: user.token
